@@ -1,6 +1,6 @@
 import {motion} from "framer-motion";
 import styled from "styled-components";
-
+import { useRef } from "react";
 
 const Wrapper = styled.div`
     display: flex;
@@ -11,63 +11,46 @@ const Wrapper = styled.div`
 `;
 
 const Box = styled(motion.div)`//애니메이션된 스타일컴포넌트적용방법
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
     width: 200px;
     height: 200px;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 1);
     border-radius: 10px;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 `;
 
-const boxVariants = {
-    start:{
-        opacity:0,
-        scale: 0.5,
-    },
-    end:{
-        opacity:1,
-        scale: 1,
-        transition: {
-            type: "spring",
-            duration: 0.5,//0.5초가걸림 박스애니메이션 마치는데
-            bounce: 0.5,
-            delayChildren: 0.5,//자식 variant에게 delay준다
-            staggerChildren: 0.2,//원 1개당 0.2초 후에 하나씪나옴
-        },
-    },
-}
-
-const Circle = styled(motion.div)`
-    place-self: center;//justify랑 align 둘다 가운데로하게하는것
-    background-color: white;
-    height:70px;
-    width: 70px;
-    border-radius: 35px;
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+const BiggerBox = styled.div`
+    overflow: hidden;
+    width: 600px;
+    height: 600px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
-const circleVariants = {
-    start: {
-        opacity: 0,//투명
-        y: 10,//motion에서만 사용: y좌표를 의미한다
-    },
-    end: {
-        opacity: 1,//다나옴
-        y: 0,
-    },
+const boxVariants = {
+    hover: {scale:1.5, rotateZ:90},
+    click:  {scale:1 , borderRadius: "100px"},
 };
+
 
 
 function App5() {
     //기본적으로 자식들에게 애니메이션을 상속해줌(Circle에도 적용)
+    const biggerBoxRef = useRef<HTMLDivElement>(null);
+    //ref를 이용해 특정 element에 접근
     return (<Wrapper>
-                <Box variants={boxVariants} initial="start" animate="end">
-                    <Circle variants={circleVariants} />
-                    <Circle variants={circleVariants} />
-                    <Circle variants={circleVariants} />
-                    <Circle variants={circleVariants} />
-                </Box>
+                <BiggerBox ref={biggerBoxRef}>
+                <Box
+                drag 
+                dragSnapToOrigin//드래그를 멈추면 가운데로 돌아감
+                dragElastic={0.5} //드래그 한걸 당기는 힘: 1로하면 원이랑 커서랑 끝까지따라감
+                dragConstraints={biggerBoxRef}//비거박스에 가장자리까지라고 설정
+                variants={boxVariants}
+                whileHover="hover"
+                whileTap="click"/>
+                </BiggerBox>
             </Wrapper>
     )//motion.을통해 애니메이션 주고자하는
     //html태그 적용 가능
