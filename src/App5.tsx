@@ -45,7 +45,7 @@ function App5() {
                 <Box
                 drag 
                 dragSnapToOrigin//드래그를 멈추면 가운데로 돌아감
-                dragElastic={0.5} //드래그 한걸 당기는 힘: 1로하면 원이랑 커서랑 끝까지따라감
+                dragElastic={0.5} //드래그 한걸 당기는 힘: 1로하면 원이랑 커서랑 끝까지따라감 -> 0.5가 기본값
                 dragConstraints={biggerBoxRef}//비거박스에 가장자리까지라고 설정
                 variants={boxVariants}
                 whileHover="hover"
@@ -54,6 +54,6 @@ function App5() {
             </Wrapper>
     )//motion.을통해 애니메이션 주고자하는
     //html태그 적용 가능
-}//Board끝에 placrholder함으로써 Board화면 안변하도록 하기
+}
 
 export default App5;
