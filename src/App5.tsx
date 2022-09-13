@@ -1,6 +1,7 @@
-import {motion} from "framer-motion";
 import styled from "styled-components";
 import { useRef } from "react";
+import { motion, useMotionValue } from "framer-motion";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
     display: flex;
@@ -37,20 +38,9 @@ const boxVariants = {
 
 
 function App5() {
-    //기본적으로 자식들에게 애니메이션을 상속해줌(Circle에도 적용)
-    const biggerBoxRef = useRef<HTMLDivElement>(null);
-    //ref를 이용해 특정 element에 접근
+    const x = useMotionValue(0);
     return (<Wrapper>
-                <BiggerBox ref={biggerBoxRef}>
-                <Box
-                drag 
-                dragSnapToOrigin//드래그를 멈추면 가운데로 돌아감
-                dragElastic={0.5} //드래그 한걸 당기는 힘: 1로하면 원이랑 커서랑 끝까지따라감 -> 0.5가 기본값
-                dragConstraints={biggerBoxRef}//비거박스에 가장자리까지라고 설정
-                variants={boxVariants}
-                whileHover="hover"
-                whileTap="click"/>
-                </BiggerBox>
+                <Box style={{ x }} drag="x" dragSnapToOrigin />
             </Wrapper>
     )//motion.을통해 애니메이션 주고자하는
     //html태그 적용 가능
