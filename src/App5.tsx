@@ -28,7 +28,7 @@ const Box = styled(motion.div)`
 
 const box = {//custom은 함수를 이용해 객체반환
     entry: (back:boolean) => {
-        return {
+        return {//true일땐 오른쪽에서 왼쪽으로
             x: back? -500 : 500,//안보일땐 x:500인 방향에있음
             opacity: 0,
             scale: 0,
