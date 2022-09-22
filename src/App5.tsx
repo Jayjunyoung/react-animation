@@ -1,87 +1,75 @@
 import styled from "styled-components";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence} from "framer-motion";
 import { useState } from "react";
 
-const Wrapper = styled(motion.div)`
+const Wrapper = styled.div`
     height: 100vh;
-    display: flex;
     width: 100vw;
-    justify-content: center;
+    display: flex;
+    justify-content: space-around;
     align-items: center;
-    flex-direction: column;
+`;
+
+const Grid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 50vw;
+    gap: 10px;
+    div:first-child,
+    div:last-child {
+        grid-column: span 3;
+    }
 `;
 
 
 const Box = styled(motion.div)`
-    width: 400px;
-    height: 200px;
     background-color: rgba(255, 255, 255, 1);
     border-radius: 40px;
-    position: absolute;//슬라이더가 안튕기로도록한것
-    top: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 28px;
+    height: 200px;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 `;
 
-const box = {//custom은 함수를 이용해 객체반환
-    entry: (back:boolean) => {
-        return {//true일땐 오른쪽에서 왼쪽으로
-            x: back? -500 : 500,//안보일땐 x:500인 방향에있음
-            opacity: 0,
-            scale: 0,
-        }
-    },
-    center: {
-        x: 0,//보일땐 가운데에 있을것
-        opacity: 1,
-        scale: 1,
-        transition: {
-            duration: 0.3,
-        },
-    },
-    exit: (back:boolean) => { 
-        return {
-            x: back? 500 : -500, //true일때 500으로 날라감
-            opacity: 0, 
-            scale: 0, 
-            transition: { duration: 0.3 }
-        }
-    },
+const Overlay = styled(motion.div)`
+    //누르면 가운데로 오는 레이아웃
+    width: 100%;
+    height: 100%;
+    position: absolute;//안눌린 애들 위에 있어야함
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+const overlay = {
+    hidden: { backgroundColor: "rgba(0, 0, 0, 0)" },
+    visible: { backgroundColor: "rgba(0, 0, 0, 0.5)" },
+    exit: { backgroundColor: "rgba(0, 0, 0, 0)" },
 };
 
 
-function App5() {
-    const [visible, setVisible] = useState(1);
-    const [back,setBack] = useState(false);
-    const nextPlease = () => {
-        setVisible((prev) => (prev === 10 ? 10 : prev + 1));
-        setBack(false);
-    }
-    const prevPlease = () => {
-        setVisible((prev) => (prev === 1 ? 1 : prev - 1));
-        setBack(true)
-    }//exitBeforeEnter - 노트에 적어놈
-    return (<Wrapper>
-        <AnimatePresence custom={back}>
-            <Box
-                custom={back}
-                variants={box}
-                initial="entry"
-                animate="center"
-                exit="exit"
-                key={visible}//이거에따라 렌더링이됌
+function App5() {//null: 아무것도선택X string: "1" ~ "4"
+    const [id, setId] = useState<null | string>(null);//기본값 null
+    return (
+        <Wrapper>
+        <Grid>
+        {["1", "2", "3", "4", "5"].map((n) => (
+            <Box onClick={() => setId(n)} key={n} layoutId={n} />
+        ))}
+        </Grid>
+        <AnimatePresence>
+        {id ? (//박스를 넣어줄 오버 레이아웃 공간
+            <Overlay
+            variants={overlay}
+            onClick={() => setId(null)}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             >
-                {visible}
-            </Box>
+                <Box layoutId={id} style={{ width: 400, height: 200 }} />
+            </Overlay>
+        ) : null}
         </AnimatePresence>
-        <button onClick={nextPlease}>next</button>
-        <button onClick={prevPlease}>prev</button>
     </Wrapper>
-    )//motion.을통해 애니메이션 주고자하는
-    //html태그 적용 가능
+    )
 }
 
 export default App5;
