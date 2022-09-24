@@ -37,12 +37,12 @@ function App5() {
     return (
         <Wrapper onClick={toggleClicked}>
         <Box>
-        {!clicked ? (//false일땐 원형이됌
+        {!clicked ? (//clicked가 false일땐 원형이됌
             <Circle layoutId="circle" style={{ borderRadius: 50 }} />
         ) : null}
         </Box>
         <Box>
-        {clicked ? (
+        {clicked ? (//네모일때는 clicked를 true일때 발동
             <Circle layoutId="circle" style={{ borderRadius: 0, scale: 2 }} />
         ) : null}
         </Box>
