@@ -14,23 +14,28 @@ const Svg = styled.svg`
     width: 300px;
     height: 300px;
     path {
-        stroke: white;
+        stroke: white;//stroke: 선을 의미
         stroke-width: 2;//선의두께
     }
 `;
 
 const svg = {
-    start: { pathLength: 0, fill: "rgba(255, 255, 255, 0)" },
+    start: { 
+        pathLength: 0, 
+        fill: "rgba(255, 255, 255, 0)" ,
+    },
     end: {
         fill: "rgba(255, 255, 255, 1)",
-        pathLength: 1,//선이 다채워짐
+        pathLength: 1,//선이 다연결됌
+        //여기에 transition을 하면 모든 애니메이션이 5초걸려
     },
 };
 
 function App5() {
     return (<Wrapper>
         <Svg
-            focusable="false"
+            focusable="false"//airBnb 로고의 path를 의미
+            //개발자 도구에서 복붙함
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 448 512"
         >
