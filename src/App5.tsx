@@ -17,7 +17,7 @@ const Grid = styled.div`
     gap: 10px;
     div:first-child,
     div:last-child {
-        grid-column: span 3;
+        grid-column: span 2;
     }
 `;
 
@@ -51,7 +51,7 @@ function App5() {//null: 아무것도선택X string: "1" ~ "4"
     return (
         <Wrapper>
         <Grid>
-        {["1", "2", "3", "4", "5"].map((n) => (
+        {["1", "2", "3", "4"].map((n) => (
             <Box onClick={() => setId(n)} key={n} layoutId={n} />
         ))}
         </Grid>
